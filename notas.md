@@ -22,6 +22,10 @@
 - En la clase se agrego el filter creado en la clase JWTAuthenticationFilter
 	- [clase SpringSecurityConfig](src/main/java/com/vaescode/springboot/app/SpringSecurityConfig.java)
 	
-#### 4 --> 
+##### 4 --> 
 - Generación de token
+	- [clase JWTAuthenticationFilter](src/main/java/com/vaescode/springboot/app/auth/filter/JWTAuthenticationFilter.java)
+
+##### 5 --> 
+- Agregando al token fecha de creación y expiración ádemas de los roles 
 	- [clase JWTAuthenticationFilter](src/main/java/com/vaescode/springboot/app/auth/filter/JWTAuthenticationFilter.java)

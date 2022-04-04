@@ -1,29 +1,32 @@
 package com.vaescode.springboot.app.auth.filter;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.collections4.map.HashedMap;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 
 /**
  * @author cesar
@@ -69,11 +72,25 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 		/* Traemos el usuario */
 		String username = ((User) authResult.getPrincipal()).getUsername();
+		
+		/*Obtener roles */
+		Collection<? extends GrantedAuthority> roles = authResult.getAuthorities();
+		Claims claims = Jwts.claims();
+		/*Se agregan los roles a los cleims como un objeto json*/
+		claims.put("authorities", new ObjectMapper().writeValueAsString(roles));
 
 		/* Generamos el token */
-		SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
-
-		String token = Jwts.builder().setSubject(username).signWith(secretKey).compact();
+		SecretKey secretKey = new SecretKeySpec("Alguna.Llave.Secreta.12345Alguna.Llave.Secreta.12345Alguna12345".getBytes(), SignatureAlgorithm.HS512.getJcaName());
+		
+		
+		String token = Jwts.builder()
+					   .setClaims(claims)/*se agregan los claims(roles) a el token*/
+					   .setSubject(username)
+					   .signWith(secretKey)
+					   /*Fecha de creación y de expiración*/
+					   .setIssuedAt(new Date())
+					   .setExpiration(new Date(System.currentTimeMillis() + 14000000L))
+					   .compact();
 
 		/* Guardamos el token en la respuesta */
 		response.addHeader("Authorization", "Bearer " + token);
