@@ -21,3 +21,7 @@
 	- [clase JWTAuthenticationFilter](src/main/java/com/vaescode/springboot/app/auth/filter/JWTAuthenticationFilter.java)
 - En la clase se agrego el filter creado en la clase JWTAuthenticationFilter
 	- [clase SpringSecurityConfig](src/main/java/com/vaescode/springboot/app/SpringSecurityConfig.java)
+	
+#### 4 --> 
+- Generación de token
+	- [clase JWTAuthenticationFilter](src/main/java/com/vaescode/springboot/app/auth/filter/JWTAuthenticationFilter.java)
