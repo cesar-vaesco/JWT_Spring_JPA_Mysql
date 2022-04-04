@@ -29,3 +29,7 @@
 ##### 5 --> 
 - Agregando al token fecha de creación y expiración ádemas de los roles 
 	- [clase JWTAuthenticationFilter](src/main/java/com/vaescode/springboot/app/auth/filter/JWTAuthenticationFilter.java)
+	
+##### 6 --> 
+- Agregando configuraciones para recibir datos sin procesar(raw data) y mostrarlos en la consola
+	- [clase JWTAuthenticationFilter](src/main/java/com/vaescode/springboot/app/auth/filter/JWTAuthenticationFilter.java)
