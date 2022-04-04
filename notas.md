@@ -3,7 +3,6 @@
 ### Json Web Token (JWT)
 
 ##### 1 -->
-
 - Agregar dependencias de JWT y actualizar archivo pom.xml
 	- https://github.com/jwtk/jjwt
 - Desabilitar csrf y declarar como sin estado la sesión en la clase SpringSecurityConfig
@@ -13,6 +12,12 @@
 	- [login](src\main\resources\templates\layout\layout.html)
 	
 ##### 2 -->
-
 - Se elimino el acceso a la ruta del login en la clase SpringSecurityConfig, en este paso al probar nuestra aplicación, no se tienen acceso a ninguna de nuestras rutas: se genera un HTTP ERROR 403 foorbiden
+	- [clase SpringSecurityConfig](src/main/java/com/vaescode/springboot/app/SpringSecurityConfig.java)
+	
+	
+##### 3 -->
+- Se agrego la clase JWTAuthenticationFilter la cual sirve para autenticar usuario y obtener su token
+	- [clase JWTAuthenticationFilter](src/main/java/com/vaescode/springboot/app/auth/filter/JWTAuthenticationFilter.java)
+- En la clase se agrego el filter creado en la clase JWTAuthenticationFilter
 	- [clase SpringSecurityConfig](src/main/java/com/vaescode/springboot/app/SpringSecurityConfig.java)
