@@ -86,7 +86,29 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 		return authenticationManager.authenticate(authToken);
 	}
+	
+	
+	
+	/*
+	 * Método que maneja la respuesta de la solicitud de login en caso de tener
+	 * error en el acceso usando usuario y contraseña
+	 */
+	@Override
+	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
+			AuthenticationException failed) throws IOException, ServletException {
 
+		/* Se mapea la respuesta*/
+		Map<String, Object> body = new HashMap<String, Object>();
+		body.put("mensaje", "Error de autheticaión: username o password incorrectos");
+		body.put("error", failed.getMessage());
+
+		/* convertir la respuesta del error en formato json */
+		response.getWriter().write(new ObjectMapper().writeValueAsString(body));
+		response.setStatus(401);
+		response.setContentType("application/json");
+	}
+	
+	
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {

@@ -33,3 +33,12 @@
 ##### 6 --> 
 - Agregando configuraciones para recibir datos sin procesar(raw data) y mostrarlos en la consola
 	- [clase JWTAuthenticationFilter](src/main/java/com/vaescode/springboot/app/auth/filter/JWTAuthenticationFilter.java)
+	
+##### 7 -->
+- Configuración para retornar respuesta en caso de error en la petición de login 
+	- [clase JWTAuthenticationFilter](src/main/java/com/vaescode/springboot/app/auth/filter/JWTAuthenticationFilter.java)
+	
+	
+	
+	
+	
