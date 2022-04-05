@@ -37,7 +37,10 @@
 ##### 7 -->
 - Configuración para retornar respuesta en caso de error en la petición de login 
 	- [clase JWTAuthenticationFilter](src/main/java/com/vaescode/springboot/app/auth/filter/JWTAuthenticationFilter.java)
-	
+
+##### 8 -->
+- Configurando clase filtro JWTAuthorizationFilter para poder acceder a los recursos de la app usando el token generado
+	- [clase JWTAuthorizationFilter](src/main/java/com/vaescode/springboot/app/auth/filter/JWTAuthorizationFilter.java)
 	
 	
 	
