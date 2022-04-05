@@ -1,7 +1,13 @@
 package com.vaescode.springboot.app.auth.filter;
 
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -16,6 +22,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
@@ -34,24 +42,34 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 			chain.doFilter(request, response);
 			return;
 		}
-		
+
 		boolean validoToken;
 		Claims token = null;
 		try {
 			token = Jwts.parserBuilder()
-				.setSigningKey("Alguna.Llave.Secreta.12345Alguna.Llave.Secreta.12345Alguna12345".getBytes())
-				.build()
-				.parseClaimsJws(header.replaceAll("Bearer", ""))
-				.getBody();
-			
-				validoToken = true;
-			
+					.setSigningKey("Alguna.Llave.Secreta.12345Alguna.Llave.Secreta.12345Alguna12345".getBytes()).build()
+					.parseClaimsJws(header.replaceAll("Bearer", "")).getBody();
+
+			validoToken = true;
+
 		} catch (JwtException | IllegalArgumentException e) {
 			e.printStackTrace();
 			validoToken = false;
 		}
+
+		UsernamePasswordAuthenticationToken authentication = null;
+
+		if (validoToken) {
+			String username = token.getSubject();
+			Object roles = token.get("authorities");
+
+			Collection<? extends GrantedAuthority> authorities = Arrays.asList(new ObjectMapper().readValue(roles.toString().getBytes(), SimpleGrantedAuthority[].class));
+			
+			authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
+		}
 		
-		if(validoToken) {}
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		chain.doFilter(request, response);
 	}
 
 	protected boolean requiresAuthentication(String header) {

@@ -45,6 +45,10 @@
 ##### 9 -->
 - Validación de token para acceder a los recursos
 	- [clase JWTAuthorizationFilter](src/main/java/com/vaescode/springboot/app/auth/filter/JWTAuthorizationFilter.java)
+	
+##### 10 -->
+- Realizando autenticación con el token JWT enviado por el cliente
+	- [clase JWTAuthorizationFilter](src/main/java/com/vaescode/springboot/app/auth/filter/JWTAuthorizationFilter.java)
 
 	
 	
