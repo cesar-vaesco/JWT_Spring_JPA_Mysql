@@ -49,6 +49,13 @@
 ##### 10 -->
 - Realizando autenticación con el token JWT enviado por el cliente
 	- [clase JWTAuthorizationFilter](src/main/java/com/vaescode/springboot/app/auth/filter/JWTAuthorizationFilter.java)
+	
+##### 11 -->
+- Creando la clase SimpleGrantedAuthoritiesMixin para poder pasar parametros a los header de la petición
+
+	- Un Mixin es una forma de incluir métodos de una clase en otra, sin que exista relación de herencia entre ellas. En cierto sentido se puede ver como una especie de “herencia” múltiple, pero sin existir relación de especialización entre las clases
+	<br/>
+	- [clase JWTAuthorizationFilter](src/main/java/com/vaescode/springboot/app/auth/SimpleGrantedAuthoritiesMixin.java)
 
 	
 	
