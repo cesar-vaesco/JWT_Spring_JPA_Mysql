@@ -55,7 +55,10 @@
 
 	- Un Mixin es una forma de incluir métodos de una clase en otra, sin que exista relación de herencia entre ellas. En cierto sentido se puede ver como una especie de “herencia” múltiple, pero sin existir relación de especialización entre las clases
 	<br/>
-	- [clase JWTAuthorizationFilter](src/main/java/com/vaescode/springboot/app/auth/SimpleGrantedAuthoritiesMixin.java)
+	- [clase SimpleGrantedAuthoritiesMixin](src/main/java/com/vaescode/springboot/app/auth/SimpleGrantedAuthoritiesMixin.java)
 
-	
+##### 12 -->
+- Creando la clase servicio y su interfaz de JWT
+	-  [interfaz JWTService](src/main/java/com/vaescode/springboot/app/auth/service/JWTService.java)
+	-  [clase JWTServiceImpl](src/main/java/com/vaescode/springboot/app/auth/service/JWTServiceImpl.java)
 	

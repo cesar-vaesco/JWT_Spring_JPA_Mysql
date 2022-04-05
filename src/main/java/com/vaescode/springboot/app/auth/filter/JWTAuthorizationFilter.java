@@ -1,5 +1,14 @@
 package com.vaescode.springboot.app.auth.filter;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -8,23 +17,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vaescode.springboot.app.auth.SimpleGrantedAuthoritiesMixin;
+import com.vaescode.springboot.app.auth.SimpleGrantedAuthorityMixin;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.UnsupportedJwtException;
-import io.jsonwebtoken.security.SignatureException;
-
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
@@ -65,7 +62,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 			Object roles = token.get("authorities");
 
 			Collection<? extends GrantedAuthority> authorities = Arrays.asList(new ObjectMapper()
-					.addMixIn(SimpleGrantedAuthority.class, SimpleGrantedAuthoritiesMixin.class)
+					.addMixIn(SimpleGrantedAuthority.class, SimpleGrantedAuthorityMixin.class)
 					.readValue(roles.toString().getBytes(), SimpleGrantedAuthority[].class));
 			
 			authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
