@@ -42,6 +42,9 @@
 - Configurando clase filtro JWTAuthorizationFilter para poder acceder a los recursos de la app usando el token generado
 	- [clase JWTAuthorizationFilter](src/main/java/com/vaescode/springboot/app/auth/filter/JWTAuthorizationFilter.java)
 	
-	
+##### 9 -->
+- Validación de token para acceder a los recursos
+	- [clase JWTAuthorizationFilter](src/main/java/com/vaescode/springboot/app/auth/filter/JWTAuthorizationFilter.java)
+
 	
 	
