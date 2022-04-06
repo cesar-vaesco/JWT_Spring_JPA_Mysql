@@ -2,6 +2,22 @@
 
 ### Json Web Token (JWT)
 
+Proyecto basado en [Repo-github = App-JPA-Spring-Mysql](https://github.com/cesar-vaesco/App-JPA-Spring-Mysql) para agregar configuraciones para implementar JWT al proyecto. 
+<br/>
+Para el proyecto, solo se habilito un handler en la clase [ClienteRestController](src/main/java/com/vaescode/springboot/app/controllers/ClienteRestController.java) para usarlo como ejemplo
+
+#### Imagenes de ejemplo del resultado de la implementación
+
+<p align="center">
+  <img src="src/main/resources/static/images/post-token.png" width="500" height="300" title="post-token">
+   <img src="src/main/resources/static/images/get-token.png" width="500" height="300" title="gett-token">
+</p>
+
+
+
+
+### Pasos de la implementación de JWT
+
 ##### 1 -->
 - Agregar dependencias de JWT y actualizar archivo pom.xml
 	- https://github.com/jwtk/jjwt
