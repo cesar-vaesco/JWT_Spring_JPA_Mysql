@@ -68,3 +68,13 @@
 	- [clase JWTAuthorizationFilter](src/main/java/com/vaescode/springboot/app/auth/filter/JWTAuthorizationFilter.java) <br/>
 	- [clase JWTAuthenticationFilter](src/main/java/com/vaescode/springboot/app/auth/filter/JWTAuthenticationFilter.java) 
 	
+	
+##### 13 -->
+- Constantes en el servicio de JWT e implementandolas en las clases JWTAuthorizationFilter y JWTAuthenticationFilter
+	- [clase JWTServiceImpl](src/main/java/com/vaescode/springboot/app/auth/service/JWTServiceImpl.java) <br/>
+	- [clase JWTAuthorizationFilter](src/main/java/com/vaescode/springboot/app/auth/filter/JWTAuthorizationFilter.java) <br/>
+	- [clase JWTAuthenticationFilter](src/main/java/com/vaescode/springboot/app/auth/filter/JWTAuthenticationFilter.java) 
+	
+	
+	
+	

@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import com.vaescode.springboot.app.auth.service.JWTService;
+import com.vaescode.springboot.app.auth.service.JWTServiceImpl;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 	
@@ -28,7 +29,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 
-		String header = request.getHeader("Authorization");
+		String header = request.getHeader(JWTServiceImpl.HEADER_STRING);
 
 		if (!requiresAuthentication(header)) {
 			chain.doFilter(request, response);
@@ -48,7 +49,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
 	
 	protected boolean requiresAuthentication(String header) {
-		if (header == null || !header.startsWith("Bearer ")) {
+		if (header == null || !header.startsWith(JWTServiceImpl.TOKEN_PREFIX)) {
 
 			return false;
 		}

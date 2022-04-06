@@ -13,6 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Base64Utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaescode.springboot.app.auth.SimpleGrantedAuthorityMixin;
@@ -24,6 +25,12 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
 public class JWTServiceImpl implements JWTService {
+	
+	
+	public static final String SECRET = Base64Utils.encodeToString( "Alguna.Llave.Secreta.12345Alguna.Llave.Secreta.12345Alguna12345".getBytes());
+	public static final Long EXPIRATION_DATE = 14000000L;
+	public static final String  TOKEN_PREFIX = "Bearer ";
+	public static final String HEADER_STRING = "Authorization";
 
 	@Override
 	public String create(Authentication auth) throws IOException {
@@ -37,14 +44,12 @@ public class JWTServiceImpl implements JWTService {
 		claims.put("authorities", new ObjectMapper().writeValueAsString(roles));
 
 		/* Generamos el token */
-		SecretKey secretKey = new SecretKeySpec(
-				"Alguna.Llave.Secreta.12345Alguna.Llave.Secreta.12345Alguna12345".getBytes(),
-				SignatureAlgorithm.HS512.getJcaName());
+		SecretKey secretKey = new SecretKeySpec(SECRET.getBytes(), SignatureAlgorithm.HS512.getJcaName());
 
 		String token = Jwts.builder().setClaims(claims)/* se agregan los claims(roles) a el token */
 				.setSubject(username).signWith(secretKey)
 				/* Fecha de creación y de expiración */
-				.setIssuedAt(new Date()).setExpiration(new Date(System.currentTimeMillis() + 14000000L)).compact();
+				.setIssuedAt(new Date()).setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_DATE )).compact();
 		return token;
 	}
 
@@ -65,7 +70,7 @@ public class JWTServiceImpl implements JWTService {
 	@Override
 	public Claims getClaims(String token) {
 		Claims claims = Jwts.parserBuilder()
-				.setSigningKey("Alguna.Llave.Secreta.12345Alguna.Llave.Secreta.12345Alguna12345".getBytes()).build()
+				.setSigningKey(SECRET.getBytes()).build()
 				.parseClaimsJws(resolve(token)).getBody();
 		return claims;
 	}
@@ -89,8 +94,8 @@ public class JWTServiceImpl implements JWTService {
 	@Override
 	public String resolve(String token) {
 
-		if (token != null && token.startsWith("Bearer ")) {
-			return token.replaceAll("Bearer", "");
+		if (token != null && token.startsWith(TOKEN_PREFIX)) {
+			return token.replaceAll(TOKEN_PREFIX, "");
 
 		}
 		return null;

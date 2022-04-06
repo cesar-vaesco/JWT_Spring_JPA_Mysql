@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaescode.springboot.app.auth.service.JWTService;
+import com.vaescode.springboot.app.auth.service.JWTServiceImpl;
 import com.vaescode.springboot.app.models.entity.Usuario;
 
 /**
@@ -113,7 +114,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	
 
 		/* Guardamos el token en la respuesta */
-		response.addHeader("Authorization", "Bearer " + token);
+		response.addHeader(JWTServiceImpl.HEADER_STRING, JWTServiceImpl.TOKEN_PREFIX + token);
 
 		/* Map que va a convertir el contenido en un json */
 		Map<String, Object> body = new HashMap<String, Object>();
