@@ -1,13 +1,9 @@
 package com.vaescode.springboot.app.auth.filter;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +13,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -25,11 +20,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vaescode.springboot.app.auth.service.JWTService;
 import com.vaescode.springboot.app.models.entity.Usuario;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 /**
  * @author cesar
@@ -38,10 +30,13 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
 	private AuthenticationManager authenticationManager;
+	private JWTService jwtService;
 
-	public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
+	public JWTAuthenticationFilter(AuthenticationManager authenticationManager, JWTService jwtService) {
 		this.authenticationManager = authenticationManager;
 		setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher("/api/login", "POST"));
+		
+		this.jwtService = jwtService;
 	}
 
 	@Override
@@ -113,27 +108,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
 
-		/* Traemos el usuario */
-		String username = ((User) authResult.getPrincipal()).getUsername();
-		
-		/*Obtener roles */
-		Collection<? extends GrantedAuthority> roles = authResult.getAuthorities();
-		Claims claims = Jwts.claims();
-		/*Se agregan los roles a los cleims como un objeto json*/
-		claims.put("authorities", new ObjectMapper().writeValueAsString(roles));
-
-		/* Generamos el token */
-		SecretKey secretKey = new SecretKeySpec("Alguna.Llave.Secreta.12345Alguna.Llave.Secreta.12345Alguna12345".getBytes(), SignatureAlgorithm.HS512.getJcaName());
-		
-		
-		String token = Jwts.builder()
-					   .setClaims(claims)/*se agregan los claims(roles) a el token*/
-					   .setSubject(username)
-					   .signWith(secretKey)
-					   /*Fecha de creación y de expiración*/
-					   .setIssuedAt(new Date())
-					   .setExpiration(new Date(System.currentTimeMillis() + 14000000L))
-					   .compact();
+		//Service
+		String token = jwtService.create(authResult);
+	
 
 		/* Guardamos el token en la respuesta */
 		response.addHeader("Authorization", "Bearer " + token);
@@ -142,7 +119,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		Map<String, Object> body = new HashMap<String, Object>();
 		body.put("token", token);
 		body.put("user", (User) authResult.getPrincipal());
-		body.put("mensaje", String.format("Hola %s, has iniciado sesión con éxito", username));
+		body.put("mensaje", String.format("Hola %s, has iniciado sesión con éxito", ((User)authResult.getPrincipal()).getUsername()));
 
 		/* convertir la respuesta en formato json */
 		response.getWriter().write(new ObjectMapper().writeValueAsString(body));

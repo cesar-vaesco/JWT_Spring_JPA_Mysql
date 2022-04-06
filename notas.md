@@ -48,7 +48,7 @@
 	
 ##### 10 -->
 - Realizando autenticación con el token JWT enviado por el cliente
-	- [clase JWTAuthorizationFilter](src/main/java/com/vaescode/springboot/app/auth/filter/JWTAuthorizationFilter.java)
+	- [clase JWTAuthorizationFilter](src/main/java/com/vaescode/springboot/app/auth/filter/JWTAuthorizationFilter.java)0
 	
 ##### 11 -->
 - Creando la clase SimpleGrantedAuthoritiesMixin para poder pasar parametros a los header de la petición
@@ -61,4 +61,10 @@
 - Creando la clase servicio y su interfaz de JWT
 	-  [interfaz JWTService](src/main/java/com/vaescode/springboot/app/auth/service/JWTService.java)
 	-  [clase JWTServiceImpl](src/main/java/com/vaescode/springboot/app/auth/service/JWTServiceImpl.java)
+	
+##### 13 -->
+- Implementando y optimizando con la clase de servicio JWT las clases JWTAuthorizationFilter y JWTAuthenticationFilter
+	- [clase JWTServiceImpl](src/main/java/com/vaescode/springboot/app/auth/service/JWTServiceImpl.java) <br/>
+	- [clase JWTAuthorizationFilter](src/main/java/com/vaescode/springboot/app/auth/filter/JWTAuthorizationFilter.java) <br/>
+	- [clase JWTAuthenticationFilter](src/main/java/com/vaescode/springboot/app/auth/filter/JWTAuthenticationFilter.java) 
 	
